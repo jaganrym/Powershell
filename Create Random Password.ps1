@@ -1,0 +1,3 @@
+﻿# Create new password    $randomPassword = Create-RandomPassword    Write-Output "New Password Generated, New password is $randomPassword"
+
+function Create-RandomPassword {    $validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"    $random = New-Object System.Random    $chars = -join ((1..12) | ForEach-Object { $validChars[$random.Next(0, $validChars.Length)] })    return $chars}

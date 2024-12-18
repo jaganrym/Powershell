@@ -1,0 +1,1 @@
+﻿Get-Content C:\Users\cr213932\Desktop\Trasfile03_InActive\ADUsers.txt | Get-ADUser | Select SamAccountName,Enabled,Path

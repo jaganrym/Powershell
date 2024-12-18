@@ -1,0 +1,1 @@
+﻿Set-GPPermissions -Name $gpoName -PermissionLevel GpoApply -TargetName "$($adGroupName)" -TargetType Group -Server $dcServer

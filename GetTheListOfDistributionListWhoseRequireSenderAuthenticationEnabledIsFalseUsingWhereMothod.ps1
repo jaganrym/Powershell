@@ -1,0 +1,1 @@
+﻿Get-DistributionGroup -filter * | ? {$_.RequireSenderAuthenticationEnabled -eq $false} | select samaccountname, grouptype, emailaddress

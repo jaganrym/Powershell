@@ -1,0 +1,1 @@
+﻿Get-ADgroup -SearchBase "OU=Security_Groups,OU=Laval-QC,OU=Americas,dc=CR,DC=LOCAL" -filter * | Set-adGroup -GroupScope Universal

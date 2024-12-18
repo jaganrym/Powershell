@@ -1,0 +1,1 @@
+﻿Get-ChildItem "E:\AutomationJobs\Current\Powershell\Poppulo\Log" | ? CreationTime -lt (Get-Date).AddDays(-3) | Remove-Item -Recurse -Force

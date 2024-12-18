@@ -1,0 +1,37 @@
+﻿
+Start-Transcript
+$now = Get-Date                                                                          #Used for timestamps
+$date = $now.ToShortDateString()                                    #Short date format for email message subject
+
+$report = @()
+$reportObj = @()
+
+$myDir = "C:\Output"
+
+$groups = import-csv C:\Input\p2group.csv
+
+foreach ($group in $Groups)
+{
+Try
+{
+    $count = @(Get-ADGroupMember -server GLCHBS-SP400040.novartis.net $group.name).Count
+    $reportObj = New-Object PSObject
+    $reportObj | Add-Member NoteProperty -Name "Group Name" -Value $group.Name
+    $reportObj | Add-Member NoteProperty -Name "Member Count" -Value $count
+    #Write-Host "$($group.Name) has $($count) members"
+    #$reportObj | Export-CSV -Path $myDir\APNovartis0members1.csv -NoTypeInformation -Encoding UTF8
+    $reportObj | out-file "C:\output\P2Empty.csv" -append -NoClobber
+    #$report + $reportObj
+}
+
+catch
+{
+"$($group.name) is not a empty group" | out-file "C:\output\P2nonempty.csv" -append -NoClobber
+}
+}
+
+#$report | Export-CSV -Path $myDir\APNovartis0members1.csv -NoTypeInformation -Encoding UTF8
+
+#...................................
+# Finished
+#...................................

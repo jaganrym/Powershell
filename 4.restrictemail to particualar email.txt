@@ -1,0 +1,13 @@
+﻿
+foreach ($group in $Groups)
+{
+Try
+{
+Set-ADGroup -Identity $Group -Add @{authOrig=@($UserDN)  -ErrorAction Stop
+$grp = $group.name
+"$Grp.name, Email delivery Restricted." | out-file "E:\Output\result.csv" -Append -NoClobber}
+catch
+{
+"could not restrict email delivery to $Grp.name." | out-file "E:\Output\result.csv" -Append -NoClobber
+}
+}

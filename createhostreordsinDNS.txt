@@ -1,0 +1,15 @@
+﻿
+$Hostrecords = Import-Csv E:\Input\hostrecords.csv
+foreach ($hostrecord in $hostrecords)
+{
+Try
+{
+Add-DnsServerResourceRecordA -Name $hostrecond.name -ZoneName "wphyd.com" -AllowUpdateAny  -IPv4Address $hostrecord.ipaddress -CreatePtr -ErrorAction Stop  
+$hostrec = $hostrecord.name
+"$hostrec , Created." | out-file "E:\Output\result.csv" -Append -NoClobber}
+catch
+{
+$hostrec = $hostrecord.name
+"$hostrec, is not Created." | out-file "E:\Output\result.csv" -Append -NoClobber
+}
+}

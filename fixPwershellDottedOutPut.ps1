@@ -1,0 +1,1 @@
+﻿Get-CsAnalogDevice | ft Identity,RegistrarPool | out-string -Width 160

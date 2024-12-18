@@ -1,0 +1,1 @@
+﻿get-ADgroup “CP-HLW-HAT_M1_M2” -Properties proxyaddresses | Select-Object Name, @{ L = "ProxyAddresses"; E =  {($_.ProxyAddresses | Where-Object {$_ -like "*smtp:*" }) -join ';'}} | export-csv C:\output\smtpproxy.csv

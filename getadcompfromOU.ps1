@@ -1,0 +1,1 @@
+﻿Get-ADcomputer -SearchBase  "OU=Boisbriand-QC,OU=Americas,dc=CR,DC=LOCAL"

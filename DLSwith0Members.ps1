@@ -1,0 +1,1 @@
+﻿Get-DistributionGroup -ResultSize Unlimited | ? { (Get-DistributionGroupMember $_.PrimarySMTPAddress | Measure-Object).Count -eq 0 } | select DisplayName,PrimarySMTPAddress | Export-Csv DLsToRemove3.csv

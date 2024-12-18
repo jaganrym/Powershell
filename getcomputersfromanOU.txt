@@ -1,0 +1,1 @@
+﻿Get-ADcomputer -SearchBase "OU=Laval-QC,OU=Americas,dc=CR,DC=LOCAL" -filter * | select name,DistinguishedName | export-csv C:\output\computers5thmarch.csv

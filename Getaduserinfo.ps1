@@ -1,0 +1,2 @@
+﻿Get-ADUser -SearchBase "OU=Users,OU=Wilmington-MA,OU=Americas,dc=CR,DC=LOCAL" -Filter * -ResultSet
+Size 8000 -properties * | select mail,employeeID,UserPrincipalName | Export-Csv c:\Data\EmpData2.csv 
