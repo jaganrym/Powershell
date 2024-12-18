@@ -1,0 +1,48 @@
+function GetShareDetails
+{
+    $UsersCount = Invoke-Command -ComputerName 'apex-fs01.apexgroup.cloud' -ScriptBlock { $date = Get-Date -Format "dd-MM-yyyy hh:mm tt" 
+    Get-SmbShare -Special $false | Where-Object -Property Name -In -Value "Apex_Subsidiary_Offices" | select @{Name = "Date"; Expression = {$date} }, Name, CurrentUsers, Path, Description }
+    $Userscount | Export-Csv "C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_Report-$today.csv" -Append -Force -NoTypeInformation
+    if($UsersCount.CurrentUsers -gt 0)
+    {
+        $OPcreatedtime = (Get-Item -Path C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_OpenFileDetails-$today.csv).CreationTime
+        if($OPcreatedtime -lt (Get-Date).AddDays(-1))
+        {
+            New-Item -Path "C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_OpenFileDetails-$today.csv" -ItemType File
+            $openFile = Invoke-Command -ComputerName 'apex-fs01.apexgroup.cloud' -ScriptBlock { $date = Get-Date -Format "dd-MM-yyyy hh:mm tt" 
+            Get-SmbOpenFile | Where-Object {$_.Path -like "F:\shared\Subsidiary_Offices\*" } | 
+	    Select @{Name = "Date"; Expression = {$date} }, ClientComputerName, ClientUserName, Path, ShareRelativePath } 
+            $openFile | Export-Csv "C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_OpenFileDetails-$today.csv" -Append -Force -NoTypeInformation
+    
+        }
+        else
+        {
+            $openFile = Invoke-Command -ComputerName 'apex-fs01.apexgroup.cloud' -ScriptBlock { $date = Get-Date -Format "dd-MM-yyyy hh:mm tt" 
+            Get-SmbOpenFile | Where-Object {$_.Path -like "F:\shared\Subsidiary_Offices\*" } | 
+	    Select @{Name = "Date"; Expression = {$date} }, ClientComputerName, ClientUserName, Path, ShareRelativePath } 
+            $openFile | Export-Csv "C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_OpenFileDetails-$today.csv" -Append -Force -NoTypeInformation
+        }
+
+    }
+}
+
+$today = Get-Date -Format dd-MM-yyyy
+$createdtime = (Get-Item -Path C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_Report-$today.csv).CreationTime
+if( Test-Path -path \\apex-fs01.apexgroup.cloud\C$ -ErrorAction SilentlyContinue)
+{
+if($createdtime -lt (Get-Date).AddDays(-1))
+{
+    New-Item -Path "C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_Report-$today.csv" -ItemType File
+    GetShareDetails
+}
+else
+{
+    GetShareDetails
+}
+}
+else
+{
+    $today1 = Get-Date -Format "dd-MM-yyyy hh:mm tt"
+    $msg = "Error Occurred while connecting the Server during the time $today1"
+    $msg >> C:\Users\infosys_shameem_esae\Desktop\Tasks\FS01-SO\Apex_fS01_SO_Report-$today.csv
+}

@@ -1,0 +1,1 @@
+﻿Invoke-Command -FilePath c:\scripts\scipt.ps1 -ComputerName Server01 | Export-Csv localadmins.csv -Append
